@@ -5,7 +5,7 @@ class FigureBase(BaseModel):
   name: str
   series: str
   code: str
-  id_classificator: int
+  # id_classificator: int
 
 class FigureCreate(FigureBase):
   pass

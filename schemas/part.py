@@ -13,6 +13,7 @@ class PartBase(BaseModel):
 
 class PartCreate(PartBase):
   pass
+  # parent_id: int
 
 class PartResponse(PartBase):
   id: int

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 import services.classificator as services
 from database import SessionLocal
@@ -17,6 +17,10 @@ def get_db():
 @router.get("/")
 def get_categories(db: Session = Depends(get_db)):
     return services.get_all_categories(db)
+
+@router.get("/check-cycle")
+def check_all_cycles(db: Session = Depends(get_db)):
+  return services.check_all_cycles(db)
 
 @router.get("/{node_id}")
 def get_category(node_id: int, db: Session = Depends(get_db)):
@@ -37,3 +41,23 @@ def delete_category(node_id: int, db: Session = Depends(get_db)):
 @router.get("/{node_id}/descendants")
 def get_descendants(node_id: int, db: Session = Depends(get_db)):
   return services.get_descendants(db, node_id)
+
+@router.get("/{node_id}/ancestors")
+def get_ancestors(node_id: int, db: Session = Depends(get_db)):
+  return services.get_ancestors(db, node_id)
+
+@router.get("/{node_id}/get-terminals")
+def get_terminals(node_id: int, db: Session = Depends(get_db)):
+  return services.get_terminals(db, node_id)
+
+from schemas.classificator import ReorderChildren
+
+@router.put("/{node_id}/reorder-children")
+def reorder_children(parent_id: int, order_list: ReorderChildren, db: Session = Depends(get_db)):
+   return services.reorder_children(db, parent_id, order_list.order_ids)
+
+from schemas.classificator import SetUnit
+
+@router.put("/{node_id}/set-unit")
+def set_unit(node_id: int, data_unit: SetUnit, db: Session = Depends(get_db)):
+   return services.set_unit(db, node_id, data_unit.unit)

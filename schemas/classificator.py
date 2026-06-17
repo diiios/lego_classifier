@@ -16,3 +16,9 @@ class ClassificatorResponse(ClassificatorBase):
 
   class Config:
     from_attributes = True
+
+class ReorderChildren(BaseModel):
+  order_ids: list[int]
+
+class SetUnit(BaseModel):
+  unit: str

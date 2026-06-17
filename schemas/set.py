@@ -3,6 +3,7 @@ from typing import Optional
 
 class SetBase(BaseModel):
   name: str
+  parent_id: int
   number_of_set: str
   price: float
   year_of_issue: int
